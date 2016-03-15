@@ -8,7 +8,7 @@ angular.module('client.overview.directives', []).
 	directive('slider', ['$timeout', 'loanFactory', 'myjarConfig', function($timeout, loanFactory, myjarConfig) {
 
 		var isMobile = myjarConfig.mobile
-									
+
 		var poundSlider = [
 			'<h2 class="large" ng-class="{\'pb0\': CLisMin == true && isMobile, \'pb25 pt45\': CLisMin == true && !isMobile }">£[[sliderPoundValue]]</h2>',
 			'<div class="slider-container" ng-show="CLisMin != true" ng-class="{\'inactive\': creditLimit == CLisMinValue}">',
@@ -20,9 +20,9 @@ angular.module('client.overview.directives', []).
 		].join('');
 
 		var daySlider = [
-			'<h2 class="large">[[sliderDayValue]] Days</h2>',
+			'<h2 class="large">[[daySliderVisible? sliderDayValue+" Days": selectedProduct.name]]</h2>',
 			'<p>Loan due date: <strong>[[earlierPaymentDate | instalmentDateFormat]]</strong></p>',
-			'<div class="slider-container">',
+			'<div class="slider-container" ng-show="daySliderVisible">',
 				'<span class="decrease" ng-click="decreaseValue(1)">-</span><span class="increase" ng-click="increaseValue(1)">+</span>',
 				'<input type="range" min="1" max="[[loanDuration]]" value="" step="1">',
 				'<span class="pull-left minmax">1 Day</span>',
@@ -48,7 +48,7 @@ angular.module('client.overview.directives', []).
 					});
 					$scope.$watch('creditLimit', function(newVal) {
 						maximumValue = newVal;
-					});					
+					});
 				} else {
 					minimumValue = 1;
 					maximumValue = $scope.loanDuration;
@@ -63,7 +63,7 @@ angular.module('client.overview.directives', []).
 						$('input', element).val(newValue).change();
 						$('input', element).rangeslider('update');
 						$scope.sliderValue[attrs.slider] = newValue;
-					}					
+					}
 				}
 
 				$scope.increaseValue = function(amount, inactive) {
@@ -121,7 +121,7 @@ angular.module('client.overview.directives', []).
 							if($scope.sliderPoundValue === null) {
 								$scope.sliderValue[attrs.slider] = limits.upper;
 								$('input', element).val(limits.upper).change();
-							}							
+							}
 						}
 					}
 
@@ -147,7 +147,7 @@ angular.module('client.overview.directives', []).
 						$('input', element).rangeslider('update');
 					},
 					onInit: function() {
-						// 
+						//
 					}
 				});
 
