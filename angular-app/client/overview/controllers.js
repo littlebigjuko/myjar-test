@@ -5,7 +5,14 @@
 angular.module('client.overview.controllers', []).
 
 	controller('ClientOverviewController',
-		['$scope', '$rootScope', 'loanFactory', 'ModalService', function($scope, $rootScope, loanFactory, ModalService) {
+		['$scope', '$rootScope', 'loanFactory', 'ModalService','$http', function($scope, $rootScope, loanFactory, ModalService,$http) {
+
+
+            $http.get('/myjar/api/api.php').success(function(response){
+                $scope.tabs = response;
+                console.log(response);
+            });
+
 
 
 			$scope.creditLimit = $scope.loanRequestData.data.loan_request.credit_limit;
@@ -90,7 +97,7 @@ angular.module('client.overview.controllers', []).
 				loanFactory.setLoanData($scope.requestData);
 
 				ModalService.showModal({
-					templateUrl: '/myjar/angular-app/modals/client/loan-request-confirm.html',
+					templateUrl: '/angular-app/modals/client/loan-request-confirm.html',
 					controller: "ModalController"
 				}).then(function(modal) {
 					modal.element.remodal().open();
